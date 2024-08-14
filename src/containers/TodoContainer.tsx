@@ -37,16 +37,14 @@ const toggleTodoComplete = (id: string) => {
         emojiContainer.innerHTML = '🎉';
         emojiContainer.style.cssText = `
           position: fixed;
-          left: ${Math.random() * 100}vw; 
+          left: ${Math.random() * 200}vw; 
           top: 100vh;
           font-size: 2rem;
           z-index: 50;
           pointer-events: none;
-          animation: fly-across 2s ease-in-out forwards;
+          animation: fly-across 1s ease-in-out forwards;
         `;
         document.body.appendChild(emojiContainer);
-  
-        // Remove the emoji after the animation ends
         setTimeout(() => {
           emojiContainer.remove();
         }, 2000);
