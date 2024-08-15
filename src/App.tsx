@@ -1,13 +1,9 @@
-import TodoContainer from './containers/TodoContainer'
-import './App.css'
+import React from 'react';
+import TodoView from './views/TodoView/index';
+import './styles/App.css';
 
+const App: React.FC = () => (
+  <TodoView />
+);
 
-const app = () => {
-  return (
-    <div>
-      <TodoContainer/>
-    </div>
-  )
-}
-
-export default app
+export default App;
