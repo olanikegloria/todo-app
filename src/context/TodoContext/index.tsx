@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import confetti from 'canvas-confetti';
 
 interface Todo {
   id: string;
@@ -25,15 +26,26 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateTodo = (id: string, newText: string) => {
-    setTodos(todos.map(todo => (todo.id === id ? { ...todo, text: newText } : todo)));
+    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)));
   };
 
   const deleteTodo = (id: string) => {
-    setTodos(todos.filter(todo => todo.id !== id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const toggleTodoComplete = (id: string) => {
-    setTodos(todos.map(todo => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)));
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
+
+    if (updatedTodos.find((todo) => todo.id === id)?.completed) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+    }
   };
 
   return (
@@ -43,8 +55,10 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useTodo = () => {
+export const useTodoContext = () => {
   const context = useContext(TodoContext);
-  if (!context) throw new Error('useTodo must be used within a TodoProvider');
+  if (!context) {
+    throw new Error('useTodoContext must be used within a TodoProvider');
+  }
   return context;
 };

@@ -1,7 +1,7 @@
 import React from 'react';
-import { TodoProvider } from '../../context/TodoContext';
-import TodoInput from '../../components/custom/TodoInput';
-import TodoList from '../../components/shared/TodoList';
+import { TodoProvider } from '../../context/TodoContext/index';
+import TodoList from '../../views/TodoListView';
+import TodoInput from '../../views/TodoInputView';
 
 const TodoContainer: React.FC = () => {
   return (

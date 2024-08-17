@@ -1,20 +1,21 @@
 import React from 'react';
 
-interface InputProps {
+interface BaseInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
-const Input: React.FC<InputProps> = ({ value, onChange, className = '', placeholder = '' }) => (
+const BaseInput: React.FC<BaseInputProps> = ({ value, onChange, onKeyDown, placeholder }) => (
   <input
     type="text"
     value={value}
     onChange={onChange}
-    className={`flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 ${className}`}
+    onKeyDown={onKeyDown}
+    className="flex-grow px-3 py-2 mr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
     placeholder={placeholder}
   />
 );
 
-export default Input;
+export default BaseInput;

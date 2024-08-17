@@ -1,15 +1,19 @@
 import React from 'react';
 
-interface ButtonProps {
+interface BaseButtonProps {
   onClick: () => void;
   children: React.ReactNode;
   className?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, children, className = '' }) => (
-  <button onClick={onClick} className={`px-3 py-1.5 rounded-md ${className}`}>
+const BaseButton: React.FC<BaseButtonProps> = ({ onClick, children, className }) => (
+  <button
+    onClick={onClick}
+    className={`px-4 py-2 rounded-md shadow-lg ${className}`}
+  >
     {children}
   </button>
 );
 
-export default Button;
+export default BaseButton;
+

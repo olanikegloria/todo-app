@@ -1,9 +1,9 @@
 import React from 'react';
-import TodoView from './views/TodoView/index';
+import TodoContainer from './containers/TodoAppContainer';
 import './styles/App.css';
 
 const App: React.FC = () => (
-  <TodoView />
+  <TodoContainer />
 );
 
 export default App;

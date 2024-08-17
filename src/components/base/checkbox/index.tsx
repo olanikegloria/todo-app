@@ -1,17 +1,17 @@
 import React from 'react';
 
-interface CheckboxProps {
+interface BaseCheckboxProps {
   checked: boolean;
   onChange: () => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange }) => (
+const BaseCheckbox: React.FC<BaseCheckboxProps> = ({ checked, onChange }) => (
   <input
     type="checkbox"
     checked={checked}
     onChange={onChange}
-    className="mr-4 h-5 w-5 accent-pink-500"
+    className="w-5 h-5 mr-2"
   />
 );
 
-export default Checkbox;
+export default BaseCheckbox;
