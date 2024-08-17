@@ -80,10 +80,6 @@ src/
 ├── index.tsx              # Entry point for the React app
 ```
 
-## 🎨 Screenshots
-
-![Todo App Screenshot](https://via.placeholder.com/800x400.png?text=Todo+App+Screenshot)
-
 ## 🛠️ Built With
 
 - **React.js**
@@ -103,6 +99,3 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
-
-Feel free to personalize the sections, like replacing the screenshot placeholder with an actual screenshot of your app and adding your own GitHub links. The README is designed to be both welcoming and informative, with a clean structure and fun emojis!
