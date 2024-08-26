@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import BaseInput from '../../components/base/Input/index';
 import BaseButton from '../../components/base/Button/index';
-import { useTodoContext } from '../../context/TodoContext/index';
+import { useTodoContext } from '../../context/TodoContext';
 
 const TodoInput: React.FC = () => {
   const [input, setInput] = useState('');

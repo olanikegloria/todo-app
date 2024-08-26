@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TodoItemView from '../../views/TodoItemView/index';
-import { useTodoContext } from '../../context/TodoContext/index';
+import { useTodoContext } from '../../context/TodoContext';
 
 const TodoItemContainer: React.FC<{ todo: { id: string; text: string; completed: boolean } }> = ({ todo }) => {
   const [isEditing, setIsEditing] = useState(false);
