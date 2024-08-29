@@ -1,6 +1,8 @@
-import React, { createContext, useState, useContext } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState, useEffect, useContext, createContext } from 'react';
+import axios from 'axios';
 import confetti from 'canvas-confetti';
+import { DATABASE_URL } from './../lib/config/index';
+import { useAuth } from './AuthContext';
 
 interface Todo {
   id: string;
@@ -19,32 +21,79 @@ interface TodoContextProps {
 const TodoContext = createContext<TodoContextProps | undefined>(undefined);
 
 export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  const addTodo = (text: string) => {
-    setTodos([...todos, { id: uuidv4(), text, completed: false }]);
+  useEffect(() => {
+    if (user) {
+      const fetchTodos = async () => {
+        try {
+          const response = await axios.get(`${DATABASE_URL}/users/${user.uid}/todos.json`);
+          const data = response.data;
+          const loadedTodos = data ? Object.keys(data).map((key) => ({ id: key, ...data[key] })) : [];
+          setTodos(loadedTodos);
+        } catch (error) {
+          console.error('Error fetching todos:', error);
+        }
+      };
+      fetchTodos();
+    }
+  }, [user]);
+
+  const addTodo = async (text: string) => {
+    if (!user) return;
+    try {
+      const response = await axios.post(`${DATABASE_URL}/users/${user.uid}/todos.json`, { text, completed: false });
+      const newTodo = { id: response.data.name, text, completed: false };
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
+    } catch (error) {
+      console.error('Error adding todo:', error);
+    }
   };
 
-  const updateTodo = (id: string, newText: string) => {
-    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)));
+  const updateTodo = async (id: string, newText: string) => {
+    if (!user) return;
+    try {
+      await axios.put(`${DATABASE_URL}/users/${user.uid}/todos/${id}.json`, { text: newText, completed: todos.find(todo => todo.id === id)?.completed || false });
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+      );
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
   };
 
-  const deleteTodo = (id: string) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const deleteTodo = async (id: string) => {
+    if (!user) return;
+    try {
+      await axios.delete(`${DATABASE_URL}/users/${user.uid}/todos/${id}.json`);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
   };
 
-  const toggleTodoComplete = (id: string) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
-    setTodos(updatedTodos);
-
-    if (updatedTodos.find((todo) => todo.id === id)?.completed) {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
+  const toggleTodoComplete = async (id: string) => {
+    if (!user) return;
+    try {
+      const todo = todos.find((todo) => todo.id === id);
+      if (todo) {
+        await axios.put(`${DATABASE_URL}/users/${user.uid}/todos/${id}.json`, { text: todo.text, completed: !todo.completed });
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) =>
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+          )
+        );
+        if (!todo.completed) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling todo:', error);
     }
   };
 

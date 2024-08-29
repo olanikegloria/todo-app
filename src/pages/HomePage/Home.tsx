@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import TodoContainer from '../../containers/TodoAppContainer';
+import TodoContainer from '../../containers/TodoContainer';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
