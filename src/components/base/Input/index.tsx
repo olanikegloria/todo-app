@@ -5,11 +5,12 @@ interface BaseInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  type?: string;  // Add the type prop
 }
 
-const BaseInput: React.FC<BaseInputProps> = ({ value, onChange, onKeyDown, placeholder }) => (
+const BaseInput: React.FC<BaseInputProps> = ({ value, onChange, onKeyDown, placeholder, type = 'text' }) => (
   <input
-    type="text"
+    type={type}
     value={value}
     onChange={onChange}
     onKeyDown={onKeyDown}

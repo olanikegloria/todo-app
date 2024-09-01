@@ -1,38 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BaseInput from '../../components/base/Input/index';
 import BaseButton from '../../components/base/Button/index';
-import { useTodoContext } from '../../context/TodoContext/index';
 
-const TodoInput: React.FC = () => {
-  const [input, setInput] = useState('');
-  const { addTodo } = useTodoContext();
-
-  const handleAddTodo = () => {
-    if (input.trim() === '') return;
-    addTodo(input);
-    setInput('');
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleAddTodo();
-  };
-
-  return (
-    <div className="max-w-md mx-auto mt-10">
-      <div className="flex items-center mb-4">
-        <BaseInput
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Add new todo"
-        />
-        <BaseButton onClick={handleAddTodo} className="bg-pink-500 text-white hover:bg-pink-600">
-          Add Todo
-        </BaseButton>
-      </div>
-    </div>
-  )
-
+interface TodoInputViewProps {
+  input: string;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onAddTodo: () => void;
 }
 
-export default TodoInput;
+const TodoInputView: React.FC<TodoInputViewProps> = ({
+  input,
+  onInputChange,
+  onKeyDown,
+  onAddTodo,
+}) => (
+  <div className="max-w-md mx-auto mt-10">
+    <div className="flex items-center mb-4">
+      <BaseInput
+        value={input}
+        onChange={onInputChange}
+        onKeyDown={onKeyDown}
+        placeholder="Add new todo"
+      />
+      <BaseButton onClick={onAddTodo} className="bg-pink-500 text-white hover:bg-pink-600">
+        Add Todo
+      </BaseButton>
+    </div>
+  </div>
+);
+
+export default TodoInputView;
+

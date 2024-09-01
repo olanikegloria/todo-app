@@ -1,17 +1,16 @@
 import React from 'react';
 import TodoItemContainer from '../../containers/TodoItemContainer';
-import {  useTodoContext } from '../../context/TodoContext/index';
 
-const TodoList: React.FC = () => {
-  const { todos } = useTodoContext();
+interface TodoListViewProps {
+  todos: { id: string; text: string; completed: boolean }[];
+}
 
-  return (
-    <ul>
-      {todos.map((todo) => (
-        <TodoItemContainer key={todo.id} todo={todo} />
-      ))}
-    </ul>
-  );
-};
+const TodoListView: React.FC<TodoListViewProps> = ({ todos }) => (
+  <ul>
+    {todos.map((todo) => (
+      <TodoItemContainer key={todo.id} todo={todo} />
+    ))}
+  </ul>
+);
 
-export default TodoList;
+export default TodoListView;
